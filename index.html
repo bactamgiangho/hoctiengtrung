@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Học tiếng Trung HSK 1</title>
+<style>
+:root{--bg:#eef2ef;--card:#fbfcfb;--ink:#17272b;--mute:#5c6d70;--line:#c5d1cd;--jade:#1d7a6c;--jade2:#d6ebe6;--seal:#c0392b;--seal2:#f6dcd8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10191b;--card:#172326;--ink:#e6eeec;--mute:#93a6a8;--line:#2d4044;--jade:#4fc0ad;--jade2:#1c3a37;--seal:#ef7a6c;--seal2:#3b2320}}
+:root[data-theme="dark"]{--bg:#10191b;--card:#172326;--ink:#e6eeec;--mute:#93a6a8;--line:#2d4044;--jade:#4fc0ad;--jade2:#1c3a37;--seal:#ef7a6c;--seal2:#3b2320}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.5}
+.zh{font-family:"Noto Serif SC","Songti SC","SimSun","Microsoft YaHei",serif}
+main{max-width:520px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.25rem;margin:0 0 2px}
+.sub{color:var(--mute);font-size:.9rem;margin:0 0 16px}
+nav{display:flex;gap:6px;margin-bottom:16px}
+nav button{flex:1;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:inherit;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--jade);border-color:var(--jade);color:#fff}
+button:focus-visible{outline:3px solid var(--jade);outline-offset:2px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--jade);width:0;transition:width .3s}
+.stat{display:flex;justify-content:space-between;color:var(--mute);font-size:.85rem;margin-bottom:14px}
+.grid{position:relative;aspect-ratio:1/1;max-width:300px;margin:0 auto 14px;background:var(--card);border:2px solid var(--seal);display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.grid::before,.grid::after{content:"";position:absolute;inset:0;pointer-events:none}
+.grid::before{background:linear-gradient(var(--seal2),var(--seal2)) center/1px 100% no-repeat,linear-gradient(var(--seal2),var(--seal2)) center/100% 1px no-repeat}
+.grid::after{background:linear-gradient(to top right,transparent calc(50% - .5px),var(--seal2) 50%,transparent calc(50% + .5px)),linear-gradient(to bottom right,transparent calc(50% - .5px),var(--seal2) 50%,transparent calc(50% + .5px))}
+.grid .zh{position:relative;z-index:1;font-size:min(30vw,8rem);line-height:1;font-weight:600;text-align:center;padding:0 6px}
+.grid .zh.long{font-size:min(20vw,4.6rem)}
+.ans{text-align:center;min-height:84px;margin-bottom:12px}
+.py{font-size:1.5rem;color:var(--jade);font-weight:600}
+.vi{font-size:1.15rem}
+.hint{color:var(--mute);font-size:.9rem}
+.row{display:flex;gap:8px;margin-bottom:8px}
+.btn{flex:1;padding:12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.btn.ok{background:var(--jade);border-color:var(--jade);color:#fff}
+.btn.no{border-color:var(--seal);color:var(--seal)}
+.opts{display:grid;gap:8px;margin-bottom:12px}
+.opts button{text-align:left;padding:13px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.opts button.right{background:var(--jade2);border-color:var(--jade)}
+.opts button.wrong{background:var(--seal2);border-color:var(--seal)}
+.link{background:none;border:0;color:var(--mute);text-decoration:underline;font:inherit;cursor:pointer;padding:6px}
+.center{text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <h1>Học tiếng Trung HSK 1</h1>
+  <p class="sub">35 từ cơ bản: bấm thẻ để lật, nghe phát âm, tự kiểm tra.</p>
+  <nav role="tablist">
+    <button role="tab" id="t-card" aria-selected="true">Thẻ từ</button>
+    <button role="tab" id="t-quiz" aria-selected="false">Trắc nghiệm</button>
+  </nav>
+
+  <section id="card">
+    <div class="bar"><i id="bar"></i></div>
+    <div class="stat"><span id="cnt"></span><span id="known"></span></div>
+    <div class="grid" id="flip" tabindex="0" role="button" aria-label="Lật thẻ"><div class="zh" id="hz"></div></div>
+    <div class="ans" id="ans"><div class="hint">Bấm vào ô chữ để xem pinyin và nghĩa</div></div>
+    <div class="row">
+      <button class="btn" id="say">Nghe</button>
+      <button class="btn" id="skip">Từ khác</button>
+    </div>
+    <div class="row">
+      <button class="btn no" id="again">Chưa nhớ</button>
+      <button class="btn ok" id="got">Đã nhớ</button>
+    </div>
+    <div class="center"><button class="link" id="reset">Xóa tiến độ</button></div>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="stat"><span id="qs"></span><span id="qb"></span></div>
+    <div class="grid" id="qgrid"><div class="zh" id="qz"></div></div>
+    <div class="ans"><div class="py" id="qp"></div></div>
+    <div class="opts" id="opts"></div>
+    <div class="row"><button class="btn" id="qsay">Nghe</button><button class="btn ok" id="qnext" hidden>Câu tiếp</button></div>
+  </section>
+</main>
+<script>
+var W=[["你好","nǐ hǎo","xin chào"],["谢谢","xièxie","cảm ơn"],["不客气","bú kèqi","không có gì"],["对不起","duìbuqǐ","xin lỗi"],["再见","zàijiàn","tạm biệt"],["我","wǒ","tôi"],["你","nǐ","bạn"],["他","tā","anh ấy"],["是","shì","là"],["不","bù","không"],["好","hǎo","tốt"],["人","rén","người"],["大","dà","to, lớn"],["小","xiǎo","nhỏ"],["吃","chī","ăn"],["喝","hē","uống"],["水","shuǐ","nước"],["茶","chá","trà"],["米饭","mǐfàn","cơm"],["学习","xuéxí","học tập"],["老师","lǎoshī","giáo viên"],["学生","xuésheng","học sinh"],["朋友","péngyou","bạn bè"],["家","jiā","nhà"],["今天","jīntiān","hôm nay"],["明天","míngtiān","ngày mai"],["一","yī","một"],["二","èr","hai"],["三","sān","ba"],["中国","Zhōngguó","Trung Quốc"],["越南","Yuènán","Việt Nam"],["爱","ài","yêu"],["喜欢","xǐhuan","thích"],["多少钱","duōshao qián","bao nhiêu tiền"],["没关系","méi guānxi","không sao"]];
+var $=function(i){return document.getElementById(i)};
+var known={};try{known=JSON.parse(localStorage.getItem("hsk1")||"{}")}catch(e){known={}}
+function save(){try{localStorage.setItem("hsk1",JSON.stringify(known))}catch(e){}}
+function say(t){try{var u=new SpeechSynthesisUtterance(t);u.lang="zh-CN";u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function setHz(el,t){el.textContent=t;el.className="zh"+(t.length>2?" long":"")}
+var cur=0,shown=false;
+function next(){var left=W.map(function(_,i){return i}).filter(function(i){return !known[i]});
+  var pool=left.length?left:W.map(function(_,i){return i});
+  var c;do{c=pool[Math.floor(Math.random()*pool.length)]}while(pool.length>1&&c===cur);cur=c;shown=false;draw()}
+function draw(){setHz($("hz"),W[cur][0]);
+  $("ans").innerHTML=shown?'<div class="py">'+W[cur][1]+'</div><div class="vi">'+W[cur][2]+'</div>':'<div class="hint">Bấm vào ô chữ để xem pinyin và nghĩa</div>';
+  var n=Object.keys(known).length;$("bar").style.width=(n/W.length*100)+"%";$("cnt").textContent="Đã nhớ "+n+"/"+W.length;
+  $("known").textContent=n===W.length?"Hoàn thành!":"Còn "+(W.length-n)+" từ"}
+function flip(){shown=!shown;draw();if(shown)say(W[cur][0])}
+$("flip").onclick=flip;$("flip").onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}};
+$("say").onclick=function(){say(W[cur][0])};$("skip").onclick=next;
+$("got").onclick=function(){known[cur]=1;save();next()};
+$("again").onclick=function(){delete known[cur];save();next()};
+$("reset").onclick=function(){known={};save();next()};
+var qi=0,sc=0,tot=0,done=false;
+function q(){done=false;$("qnext").hidden=true;$("qp").textContent="";
+  qi=Math.floor(Math.random()*W.length);setHz($("qz"),W[qi][0]);
+  var o=[qi];while(o.length<4){var r=Math.floor(Math.random()*W.length);if(o.indexOf(r)<0)o.push(r)}
+  o.sort(function(){return Math.random()-.5});
+  $("opts").innerHTML="";
+  o.forEach(function(i){var b=document.createElement("button");b.textContent=W[i][2];
+    b.onclick=function(){if(done)return;done=true;tot++;
+      var bs=$("opts").children;for(var k=0;k<bs.length;k++){if(bs[k].textContent===W[qi][2])bs[k].className="right"}
+      if(i===qi){sc++}else{b.className="wrong"}
+      $("qp").textContent=W[qi][1];say(W[qi][0]);$("qnext").hidden=false;stat()};
+    $("opts").appendChild(b)});stat()}
+function stat(){$("qs").textContent="Đúng "+sc+"/"+tot;$("qb").textContent="Chọn nghĩa của từ trên"}
+$("qnext").onclick=q;$("qsay").onclick=function(){say(W[qi][0])};
+function tab(w){var c=w==="card";$("card").hidden=!c;$("quiz").hidden=c;
+  $("t-card").setAttribute("aria-selected",c);$("t-quiz").setAttribute("aria-selected",!c);if(!c&&!$("opts").children.length)q()}
+$("t-card").onclick=function(){tab("card")};$("t-quiz").onclick=function(){tab("quiz")};
+next();
+</script>
+</body>
+</html>
